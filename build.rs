@@ -44,14 +44,12 @@ fn main() {
         let fc_lib_cwd = PathBuf::from(fc_stdout.to_string());
         let fc_lib_pwd = fc_lib_cwd.parent().expect("Path to libgfortran.a not found");
         println!("cargo:rustc-link-search={}", fc_lib_pwd.to_str().unwrap());
+        println!("cargo:rustc-link-lib={}=quadmath", fc_lib_type);
     }
 
     println!("cargo:rustc-link-lib={}=gfortran", fc_lib_type);
-
-    if target == "x86_64-apple-darwin" {
-        println!("cargo:rustc-link-lib={}=quadmath", fc_lib_type);
-    }
 }
+
 fn run(command: &mut Command) {
     println!("Running: {:?}", command);
     match command.status() {
